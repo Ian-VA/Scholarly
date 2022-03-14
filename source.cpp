@@ -10,11 +10,11 @@
 
 
 
-static size_t write(void* buffer, size_t size, size_t nmemb, void* param)
+static size_t write(void* buffer, size_t size, size_t nmemb, void* param) // callback function 
 {
 	std::string& text = *static_cast<std::string*>(param);
 	size_t totalsize = size * nmemb;
-	text.append(static_cast<char*>(buffer), totalsize);
+	text.append(static_cast<char*>(buffer), totalsize); // casts buffer from void* to character* and appends data to text
 	
 	return totalsize;
 }
@@ -37,7 +37,7 @@ int main()
 
 	curl = curl_easy_init(); // initialization
 	if (curl) {
-		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+		curl_easy_setopt(curl, CURLOPT_URL, url.c_str()); // specifications
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &result);
 		curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
