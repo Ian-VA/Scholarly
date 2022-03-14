@@ -1,6 +1,4 @@
 # Scholarly
-Scholarly is a web scraper that seeks to return credible articles.
-
-WIP, Hoping for GUI and Parsing by the time its finished
+Scholarly is a WIP web scraper that seeks to return credible articles to make information easier to access and to inhibit the spread of misinformation.
 
 Made by Ian A.
