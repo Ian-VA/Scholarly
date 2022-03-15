@@ -28,9 +28,16 @@ int main()
 {
 	// declaration
 	CURL* curl;
+	std::string input;
 	std::string result;
 	CURLcode response;
-	std::string url = "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=psychology&btnG=";
+	std::string url;
+
+	std::cout << "Keywords (Note that more keywords means less accurate articles): ";
+	std::cin >> input;
+	
+	url = "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=" + input + "&btnG=";
+
 
 
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -40,7 +47,7 @@ int main()
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str()); // specifications
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &result);
-		curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+		// curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
 		response = curl_easy_perform(curl);
 		if (response != CURLE_OK) { // if response isn't "OK"
