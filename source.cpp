@@ -58,12 +58,11 @@ int main()
 		}
 		curl_easy_cleanup(curl); // cleanup
 
-		parser(result);
 	}
 	else { // if Curl doesn't work because it hates me
 		throw "Error";
 	}
 
 	curl_global_cleanup(); // cleanup
-	std::cout << result;
+	std::cout << parser(result);
 }
