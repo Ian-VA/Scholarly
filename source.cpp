@@ -34,7 +34,7 @@ int main()
 	std::string url;
 
 	std::cout << "Keywords (Note that more keywords means less accurate articles): ";
-	std::cin >> input;
+	getline(std::cin, input);
 	
 	url = "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=" + input + "&btnG=";
 
