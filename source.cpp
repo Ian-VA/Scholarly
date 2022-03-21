@@ -52,10 +52,10 @@ int main()
 		response = curl_easy_perform(curl);
 		if (response != CURLE_OK) { // if response isn't "OK"
 			std::cout << curl_easy_strerror(response);
-		}
-		else {
+		} else {
 			std::cout << response << std::endl;
 		}
+		
 		curl_easy_cleanup(curl); // cleanup
 
 	} else { // if Curl doesn't work because it hates me
