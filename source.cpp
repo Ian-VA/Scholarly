@@ -2,6 +2,8 @@
 #include "curl/easy.h"
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <vector>
 #define CURL_STATICLIB
 #pragma comment (lib, "Normaliz.lib")
 #pragma comment (lib, "Ws2_32.lib")
@@ -10,7 +12,7 @@
 
 
 
-static size_t write(void* buffer, size_t size, size_t nmemb, void* param) // callback function 
+static size_t write(void* buffer, size_t size, size_t nmemb, void* param) // callback function
 {
 	std::string& text = *static_cast<std::string*>(param);
 	size_t totalsize = size * nmemb;
@@ -19,7 +21,7 @@ static size_t write(void* buffer, size_t size, size_t nmemb, void* param) // cal
 	return totalsize;
 }
 
-void parser(std::string &result)
+void parser(std::string result)
 {
 
 }
@@ -35,9 +37,12 @@ int main()
 
 	std::cout << "Keywords (Note that more keywords means less accurate articles): ";
 	getline(std::cin, input);
+
+	if (input.find(" ")) {
+		std::replace(input.begin(), input.end(), ' ', '+');
+	}
 	
 	url = "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=" + input + "&btnG=";
-
 
 
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -55,13 +60,13 @@ int main()
 		} else {
 			std::cout << response << std::endl;
 		}
-		
 		curl_easy_cleanup(curl); // cleanup
+
 
 	} else { // if Curl doesn't work because it hates me
 		throw "Error";
 	}
 
 	curl_global_cleanup(); // cleanup
-	std::cout << parser(result);
+	std::cout << result;
 }
