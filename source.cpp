@@ -2,6 +2,7 @@
 #include "curl/easy.h"
 #include <iostream>
 #include <string>
+#include <tidy.h>
 #include <algorithm>
 #include <vector>
 #define CURL_STATICLIB
@@ -21,7 +22,7 @@ static size_t write(void* buffer, size_t size, size_t nmemb, void* param) // cal
 	return totalsize;
 }
 
-void parser(std::string &result)
+std::string parser(std::string &result)
 {
 
 }
