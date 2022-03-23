@@ -21,7 +21,7 @@ static size_t write(void* buffer, size_t size, size_t nmemb, void* param) // cal
 	return totalsize;
 }
 
-void parser(std::string result)
+void parser(std::string &result)
 {
 
 }
