@@ -2,7 +2,6 @@
 #include "curl/easy.h"
 #include <iostream>
 #include <string>
-#include <tidy.h>
 #include <algorithm>
 #include <vector>
 #define CURL_STATICLIB
