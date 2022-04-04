@@ -2,34 +2,60 @@
 #include "curl/easy.h"
 #include <iostream>
 #include <string>
+#include <cstdio>
 #include <algorithm>
+#include <stdio.h>
 #include <vector>
+#include "libxml/tree.h"
+#include "libxml/HTMLparser.h"
 #define CURL_STATICLIB
 #pragma comment (lib, "Normaliz.lib")
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Wldap32.lib")
 #pragma comment (lib, "advapi32.lib")
+#pragma comment(lib, "libcurl_a.lib")
 
 
 
-static size_t write(void* buffer, size_t size, size_t nmemb, void* param) // callback function
+static std::size_t write(void* buffer, std::size_t size, std::size_t nmemb, void* param) 
 {
 	std::string& text = *static_cast<std::string*>(param);
-	size_t totalsize = size * nmemb;
-	text.append(static_cast<char*>(buffer), totalsize); // casts buffer from void* to character* and appends data to text
-	
+	std::size_t totalsize = size * nmemb;
+	text.append(static_cast<char*>(buffer), totalsize); 
+
 	return totalsize;
 }
 
-std::string parser(std::string &result)
+void parser(xmlNode *a_node)
 {
+	xmlNode* cur_node = NULL;
+	if (NULL == a_node)
+	{
+		return;
+	}
 
+	for (cur_node = a_node; cur_node; cur_node = cur_node->next)
+	{
+		if (cur_node->type == XML_ELEMENT_NODE)
+		{
+			printf("Node type: Text, name: %s\n", cur_node->name);
+		}
+		else if (cur_node->type == XML_TEXT_NODE)
+		{
+			printf("node type: Text, node content: %s,  content length %d\n", (char*)cur_node->content, strlen((char*)cur_node->content));
+		}
+		parser(cur_node->children);
+	}
+
+	return;
 }
 
 int main()
 {
-	// declaration
+	
 	CURL* curl;
+	htmlDocPtr doc;
+	xmlNode* roo_element = NULL; 
 	std::string input;
 	std::string result;
 	CURLcode response;
@@ -41,32 +67,49 @@ int main()
 	if (input.find(" ")) {
 		std::replace(input.begin(), input.end(), ' ', '+');
 	}
-	
+
 	url = "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=" + input + "&btnG=";
 
 
 	curl_global_init(CURL_GLOBAL_ALL);
 
-	curl = curl_easy_init(); // initialization
+	curl = curl_easy_init(); 
 	if (curl) {
-		curl_easy_setopt(curl, CURLOPT_URL, url.c_str()); // specifications
+		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &result);
-		// curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-
+		
 		response = curl_easy_perform(curl);
-		if (response != CURLE_OK) { // if response isn't "OK"
+		if (response != CURLE_OK) { 
 			std::cout << curl_easy_strerror(response);
-		} else {
+		}
+		else {
 			std::cout << response << std::endl;
 		}
-		curl_easy_cleanup(curl); // cleanup
+		curl_easy_cleanup(curl); 
 
 
-	} else { // if Curl doesn't work because it hates me
+	}
+	else { 
 		throw "Error";
 	}
 
-	curl_global_cleanup(); // cleanup
+	doc = htmlReadFile(result.c_str(), NULL, HTML_PARSE_NOBLANKS | HTML_PARSE_NOERROR | HTML_PARSE_NOWARNING | HTML_PARSE_NONET);
+	curl_global_cleanup(); 
+
+	roo_element = xmlDocGetRootElement(doc);
+
+	if (roo_element == NULL)
+	{
+		fprintf(stderr, "empty document\n");
+		xmlFreeDoc(doc);
+		return 0;
+	}
+
 	std::cout << result;
+	printf("Root Node is %s\n", roo_element->name);
+	parser(roo_element);
+
+	xmlFreeDoc(doc);
+	xmlCleanupParser();   
 }
