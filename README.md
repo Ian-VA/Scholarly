@@ -1,4 +1,5 @@
 # Scholarly
-Scholarly is a WIP web scraper that seeks to return credible articles to make information easier to access and to inhibit the spread of misinformation.
+
+Web scraper made in C++ with Libcurl and Libxml2 for parsing.
 
 Made by Ian A.
