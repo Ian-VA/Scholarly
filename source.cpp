@@ -29,20 +29,16 @@ static std::size_t write(void* buffer, std::size_t size, std::size_t nmemb, void
 void parser(xmlNode *a_node)
 {
 	xmlNode* cur_node = NULL;
-	if (NULL == a_node)
-	{
+	if (NULL == a_node){
 		return;
 	}
 
-	for (cur_node = a_node; cur_node; cur_node = cur_node->next)
-	{
-		if (cur_node->type == XML_ELEMENT_NODE)
-		{
-			printf("Node type: Text, name: %s\n", cur_node->name);
-		}
-		else if (cur_node->type == XML_TEXT_NODE)
-		{
-			printf("node type: Text, node content: %s,  content length %d\n", (char*)cur_node->content, strlen((char*)cur_node->content));
+	for (cur_node = a_node; cur_node; cur_node = cur_node->next){
+		if (cur_node->type == XML_ELEMENT_NODE){
+			std::cout << "Node Type: Text, Node Name: " + cur_node->name;
+		} else if (cur_node->type == XML_TEXT_NODE) {
+			std::string content = static_cast<char*>(cur_node->content));
+			std::cout << "Node Type: Text" + "Node Content: " + content + "Content Length: " + content.size();
 		}
 		parser(cur_node->children);
 	}
