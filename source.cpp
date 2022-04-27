@@ -97,13 +97,13 @@ int main()
 
 	if (roo_element == NULL)
 	{
-		fprintf(stderr, "empty document\n");
+		std::cout << "empty document" << std::endl;
 		xmlFreeDoc(doc);
 		return 0;
 	}
 
 	std::cout << result;
-	printf("Root Node is %s\n", roo_element->name);
+	std::cout << "Root node: " + roo_element->name;
 	parser(roo_element);
 
 	xmlFreeDoc(doc);
