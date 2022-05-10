@@ -37,7 +37,7 @@ void parser(xmlNode *a_node)
 		if (cur_node->type == XML_ELEMENT_NODE){
 			std::cout << "Node Type: Text, Node Name: " + cur_node->name;
 		} else if (cur_node->type == XML_TEXT_NODE) {
-			std::string content = static_cast<char*>(cur_node->content));
+			std::string content = static_cast<char*>(cur_node->content);
 			std::cout << "Node Type: Text" + "Node Content: " + content + "Content Length: " + content.size();
 		}
 		parser(cur_node->children);
