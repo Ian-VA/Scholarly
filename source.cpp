@@ -100,7 +100,7 @@ int main()
 		std::cout << "empty document" << std::endl;
 		xmlFreeDoc(doc);
 		return 0;
-	}
+	} 
 
 	std::cout << result;
 	std::cout << "Root node: " + roo_element->name;
