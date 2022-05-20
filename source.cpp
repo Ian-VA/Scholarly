@@ -17,7 +17,7 @@
 
 
 
-static std::size_t write(void* buffer, std::size_t size, std::size_t nmemb, void* param) 
+static std::size_t write(void* buffer, std::size_t size, std::size_t nmemb, void* param) // callback function
 {
 	std::string& text = *static_cast<std::string*>(param);
 	std::size_t totalsize = size * nmemb;
@@ -28,7 +28,7 @@ static std::size_t write(void* buffer, std::size_t size, std::size_t nmemb, void
 
 void parser(xmlNode *a_node)
 {
-	xmlNode* cur_node = NULL;
+	xmlNode* cur_node = NULL; // binary tree
 	if (NULL == a_node){
 		return;
 	}
@@ -40,7 +40,7 @@ void parser(xmlNode *a_node)
 			std::string content = static_cast<char*>(cur_node->content);
 			std::cout << "Node Type: Text" + "Node Content: " + content + "Content Length: " + content.size();
 		}
-		parser(cur_node->children);
+		parser(cur_node->children); // recursion
 	}
 
 	return;
@@ -49,7 +49,7 @@ void parser(xmlNode *a_node)
 int main()
 {
 	
-	CURL* curl;
+	CURL* curl; // initialization
 	htmlDocPtr doc;
 	xmlNode* roo_element = NULL; 
 	std::string input;
