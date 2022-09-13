@@ -49,12 +49,6 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	for (int i = 0; i < strlen(userinput2); i++)
-	{
-		if (userinput[i] == ' ') {
-			userinput[i] = '%';
-		}
-	}
 	
 	char url[] = "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=";
 	strcat(url, userinput);
