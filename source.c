@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 	// declaration
 	CURL* curl;
 	CURLcode response;
-	char tag[1], attr[4], val[128], userinput[100], userinput2[100];
+	char tag[1], attr[4], val[128], userinput[100];
 	HTMLSTREAMPARSER* hsp;
 	char print[] = "Keywords (Be specific!): ";
 
