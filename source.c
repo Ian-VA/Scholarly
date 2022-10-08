@@ -15,13 +15,20 @@
 static size_t write(void* buffer, size_t size, size_t nmemb, void* hsp)
 {
 	size_t realsize = size * nmemb, p;
+	const char* printable;
+	const char* allweb[100];
 	for (p = 0; p < realsize; p++) {
 		html_parser_char_parse(hsp, ((char*)buffer)[p]);
 		if (html_parser_cmp_tag(hsp, "a", 1)){
-			if (html_parser_cmp_attr(hsp, "href=", 4)){
+			if (html_parser_cmp_attr(hsp, "href=\http", 4)){
 				if (html_parser_is_in(hsp, HTML_VALUE_ENDED)) {
 					html_parser_val(hsp)[html_parser_val_length(hsp)] = '\0';
-					printf("%s\n", html_parser_val(hsp));
+					allweb[p] = html_parser_val(hsp);
+
+					if (allweb[p] != "javascript:void(0)") {
+						printable = strcat(allweb[p], "\n");
+						printf(printable);
+					}
 				}
 			}
 		}
@@ -35,7 +42,7 @@ int main(int argc, char* argv[])
 	// declaration
 	CURL* curl;
 	CURLcode response;
-	char tag[1], attr[4], val[128], userinput[100];
+	char tag[1], attr[4], val[128], userinput[100], userinput2[100];
 	HTMLSTREAMPARSER* hsp;
 	char print[] = "Keywords (Be specific!): ";
 
@@ -49,6 +56,12 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	for (int i = 0; i < strlen(userinput2); i++)
+	{
+		if (userinput[i] == ' ') {
+			userinput[i] = '%';
+		}
+	}
 	
 	char url[] = "https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=";
 	strcat(url, userinput);
@@ -92,3 +105,4 @@ int main(int argc, char* argv[])
 
 	
 }
+
