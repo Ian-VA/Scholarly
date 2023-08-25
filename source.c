@@ -9,9 +9,6 @@
 #pragma comment (lib, "advapi32.lib")
 #pragma warning(disable : 4996) // for vs studio to tolerate strcat
 
-
-
-
 static size_t write(void* buffer, size_t size, size_t nmemb, void* hsp)
 {
 	size_t realsize = size * nmemb, p;
